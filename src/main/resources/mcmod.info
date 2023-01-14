@@ -1,0 +1,16 @@
+[
+    {
+      "modid": "blightfallfilefix",
+      "name": "BlightfallFileFixer",
+      "description": "Small file tweaks for the new Blightfall update",
+      "version": "${version}",
+      "mcversion": "${mcversion}",
+      "url": "",
+      "updateUrl": "",
+      "authorList": ["Midnight"],
+      "credits": "",
+      "logoFile": "",
+      "screenshots": [],
+      "dependencies": []
+    }
+]
