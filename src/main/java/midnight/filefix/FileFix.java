@@ -59,33 +59,6 @@ public class FileFix {
 	
 	private void fixFiles() throws IOException {
 		this.purgeTerrainControlConfigs();
-		this.fixDim112();
-	}
-
-	private void fixDim112() throws IOException {
-		InputStream zipfile;
-
-		zipfile = this.getClass().getResourceAsStream("/midnight/filefix/embeddedfiles/r.-2.-3.mca.zip");
-
-		final ZipInputStream zipIn = new ZipInputStream(zipfile);
-		final ZipEntry entry = zipIn.getNextEntry();
-		final String[] pathnames = { "flans", "DIM-112", "region", entry.getName() };
-		final String filePath = String.join(File.separator, pathnames);
-		this.extractFile(zipIn, filePath);
-		zipIn.closeEntry();
-		zipIn.close();
-	}
-
-	private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
-		System.out.println("Extracting file: " + filePath);
-		final BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
-		final byte[] bytesIn = new byte[4096];
-		int read = 0;
-		while ((read = zipIn.read(bytesIn)) != -1) {
-			bos.write(bytesIn, 0, read);
-		}
-		bos.close();
-		System.out.println("Extracted file: " + filePath);
 	}
 	
 	private void purgeTerrainControlConfigs() {
