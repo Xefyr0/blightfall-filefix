@@ -19,13 +19,13 @@ public class FileFix {
 	public static final String MODNAME = "BlightfallFileFixer";
 	public static final String VERSION = "1.0.1";
 	public static final String DEPS = "";
-	public WorldLoadEventHandler worldLoadEventHandler;
+	public EnterChunkEventHandler worldLoadEventHandler;
 	
 	@Mod.EventHandler
 	// public void preInit(FMLPreInitializationEvent event) {
 	public void postInit(FMLPostInitializationEvent event) {
 
-		this.worldLoadEventHandler = new WorldLoadEventHandler();
+		this.worldLoadEventHandler = new EnterChunkEventHandler();
 
 		final File check = new File(".filefixer.done");
 		final String oldVersion = this.getFileFixerVersion(check);
