@@ -33,3 +33,4 @@ gradle/
 gradlew
 build.gradle
 .github/
+libs/
