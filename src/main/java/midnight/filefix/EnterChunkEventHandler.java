@@ -27,19 +27,21 @@ public class EnterChunkEventHandler {
 	
 	@SubscribeEvent
 	public void onEnterChunk(EntityEvent.EnteringChunk event) {
+		if (event.entity.worldObj.isRemote) { return; }
 		final World world = event.entity.worldObj;
 		final FileFixWorldSavedData data = FileFixWorldSavedData.get(world);
 		if (!data.broadswordFixed) {
 			this.doSwordFix(event, world, data);
 		}
 		if (!data.caysykaBookFixed) {
-			// System.out.println("Fixing caysyka book");
 			this.doCaysykaBookFix(event, world, data);
 		}
 	}
 
 	private void doCaysykaBookFix(EnteringChunk event, World world, FileFixWorldSavedData data) {
+		
 		if (event.newChunkX == -67 && event.newChunkZ == -64) {
+			System.out.println("Fixing caysyka book");
 			if (world.provider.dimensionId != 0) { return; }
 			final String nbtString = "{id:387,Count:1,Damage:0,tag:{pages:[\"Caysyka is a great critic. While she makes sure people know she's not a designer, she speaks enough design language to intelligently and insightfully critique design decisions, making her an incredible tester. Also, she has a SA account, and posted the \",\"notification in SA that Blightfall was initially published. Given that CanVox learned about Blightfall from the SA thread, it's Caysyka's fault that Blightfall was discovered by Technic at all.\"],author:\"Talonos\",title:\"About Caysyka\"}}";
 			final TileEntityCorpse model = (TileEntityCorpse) world.getTileEntity(-1060, 142, -1021);
@@ -66,10 +68,12 @@ public class EnterChunkEventHandler {
 
 	public void doSwordFix(EntityEvent.EnteringChunk event, World world, FileFixWorldSavedData data) {
 		if (event.newChunkX == 102 && event.newChunkZ == 7) {
+			System.out.println("Fixing broadsword");
 			if (world.provider.dimensionId != 0) { return; }
 			final AxisAlignedBB box = AxisAlignedBB.getBoundingBox(1633, 42, 124, 1635, 44, 126);
 			@SuppressWarnings("unchecked")
 			final List<EntityMinecartChest> chests = world.getEntitiesWithinAABB(EntityMinecartChest.class, box);
+			System.out.println("for the love of all things holy, search me. Length of chests: " + chests.size());
 			for (final EntityMinecartChest chest : chests) {
 				System.out.println(chest.toString());
 			}
