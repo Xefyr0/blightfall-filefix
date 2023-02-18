@@ -14,19 +14,19 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 
 @Mod(modid = FileFix.MODID, name = FileFix.MODNAME, version = FileFix.VERSION, dependencies = FileFix.DEPS)
 public class FileFix {
-	
+
 	public static final String MODID = "blightfallfilefix";
 	public static final String MODNAME = "BlightfallFileFixer";
-	public static final String VERSION = "1.0.1";
+	public static final String VERSION = "1.0.2";
 	public static final String DEPS = "";
 	public EnterChunkEventHandler worldLoadEventHandler;
-	
+
 	@Mod.EventHandler
 	// public void preInit(FMLPreInitializationEvent event) {
 	public void postInit(FMLPostInitializationEvent event) {
-
+		
 		this.worldLoadEventHandler = new EnterChunkEventHandler();
-
+		
 		final File check = new File(".filefixer.done");
 		final String oldVersion = this.getFileFixerVersion(check);
 		System.out.println("Old FileFixer version: " + oldVersion);
@@ -39,7 +39,7 @@ public class FileFix {
 			catch (final IOException ex) {
 				ex.printStackTrace();
 			}
-
+			
 			try {
 				check.createNewFile();
 				final BufferedWriter bw = new BufferedWriter(new FileWriter(check));
@@ -55,9 +55,9 @@ public class FileFix {
 			System.out.println("Old version matches current version, skipping.");
 		}
 	}
-
+	
 	private void fixFiles() throws IOException { this.purgeTerrainControlConfigs(); }
-
+	
 	private void purgeTerrainControlConfigs() {
 		final File saves = new File("saves");
 		if (saves.exists() && saves.isDirectory()) {
@@ -86,7 +86,7 @@ public class FileFix {
 			}
 		}
 	}
-
+	
 	private String getFileFixerVersion(File file) {
 		try {
 			if (file.exists()) {
@@ -99,5 +99,5 @@ public class FileFix {
 			return "0.0.0";
 		}
 	}
-
+	
 }

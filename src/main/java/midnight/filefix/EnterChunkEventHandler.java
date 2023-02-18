@@ -20,12 +20,12 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 
 public class EnterChunkEventHandler {
-
+	
 	public EnterChunkEventHandler() {
 		MinecraftForge.EVENT_BUS.register(this);
 		System.out.println("I am being created");
 	}
-	
+
 	@SubscribeEvent
 	public void onEnterChunk(EntityEvent.EnteringChunk event) {
 		if (event.entity.worldObj.isRemote || !(event.entity instanceof EntityPlayerMP)) { return; }
@@ -38,9 +38,9 @@ public class EnterChunkEventHandler {
 			this.doCaysykaBookFix(event, world, data);
 		}
 	}
-
+	
 	private void doCaysykaBookFix(EnteringChunk event, World world, FileFixWorldSavedData data) {
-		
+
 		if (event.newChunkX == -67 && event.newChunkZ == -64) {
 			System.out.println("Fixing caysyka book");
 			if (world.provider.dimensionId != 0) { return; }
@@ -66,12 +66,12 @@ public class EnterChunkEventHandler {
 			}
 			if (tag == null) { return; }
 			itemstack.readFromNBT(tag);
-			model.setInventorySlotContents(1, itemstack);	
+			model.setInventorySlotContents(1, itemstack);
 			data.caysykaBookFixed = true;
 			data.markDirty();
 		}
 	}
-
+	
 	public void doSwordFix(EntityEvent.EnteringChunk event, World world, FileFixWorldSavedData data) {
 		if (event.newChunkX == 102 && event.newChunkZ == 7) {
 			System.out.println("Fixing broadsword");
@@ -80,13 +80,9 @@ public class EnterChunkEventHandler {
 			@SuppressWarnings("unchecked")
 			final List<EntityMinecartChest> chests = world.getEntitiesWithinAABB(EntityMinecartChest.class, box);
 			for (final EntityMinecartChest chest : chests) {
-				System.out.println(chest.toString());
-			}
-			
-			for (final EntityMinecartChest chest : chests) {
 				if (chest.getStackInSlot(13) == null) {
 					final String nbtString = "{id:4502,Count:1,Damage:0,tag:{InfiTool:{BaseDurability:405,Head:101,Tooltip1:\"§dBeheading\",ToolEXP:0l,Effect1:13,HarvestLevel:4,ModifierTip1:\"§dBeheading\",Attack:9,RenderHead:101,ModDurability:0.0f,Handle:14,Broken:0b,Shoddy:0.0f,RenderHandle:14,Accessory:123,MiningSpeed:500,RenderAccessory:123,ToolLevel:1,Unbreaking:2,Damage:0,Beheading:1,BonusDurability:0,Modifiers:0,TotalDurability:405},display:{Name:\"§fArtaxerxes\"}}}";
-					
+
 					final Item item = GameRegistry.findItem("TConstruct", "broadsword");
 					if (item == null) {
 						System.out.println("Failed to create item!");
@@ -95,7 +91,7 @@ public class EnterChunkEventHandler {
 					}
 					final ItemStack itemstack = new ItemStack(item, 1, 0);
 					NBTTagCompound tag = null;
-					
+
 					try {
 						tag = (NBTTagCompound) JsonToNBT.func_150315_a(nbtString);
 					}
@@ -108,14 +104,14 @@ public class EnterChunkEventHandler {
 					if (tag == null) { return; }
 					itemstack.readFromNBT(tag);
 					chest.setInventorySlotContents(13, itemstack);
-					
+
 				}
 				data.broadswordFixed = true; // set broadswordFixed to true
 				data.markDirty();
 				return;
 			}
 		}
-
+		
 	}
-	
+
 }
